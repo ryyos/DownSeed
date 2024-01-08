@@ -20,8 +20,8 @@ class Main:
 
         file = find_dotenv()
 
-        set_key(file, 'PATH', path)
-        os.getenv('PATH')
+        set_key(file, 'PATH_TO_SAVE', path)
+        os.getenv('PATH_TO_SAVE')
         ...
 
     @sosmed.command('instagram')
@@ -31,7 +31,8 @@ class Main:
 
         load_dotenv()
 
-        PATH = os.getenv('PATH')
+        PATH = os.getenv('PATH_TO_SAVE')
+        print(PATH)
         instagram.ex(path=PATH, post_url=url)
         ...
 
@@ -42,7 +43,7 @@ class Main:
 
         load_dotenv()
 
-        PATH = os.getenv('PATH')
+        PATH = os.getenv('PATH_TO_SAVE')
         tiktok.ex(path=PATH, tiktok_url=url)
         ...
 
