@@ -2,7 +2,7 @@ import requests
 
 from uuid import uuid4
 from urllib import request
-from pyquery import PyQuery
+from bs4 import BeautifulSoup
 
 from src.utils.logs import logger
 
@@ -24,5 +24,6 @@ class Tiktok:
         payload = {'id': tiktok_url, 'locale' : 'id', 'tt':'RjU5bWlk'}
         response = requests.post(url=self.__api, data=payload, headers=self.__headers)
 
-        self.__curl(path=f'{path}/{uuid4()}.mp4', url=PyQuery(response.text)('a:first-child').attr('href'))
+        print(BeautifulSoup(response.text, 'html.parser').find('a')['href'])
+        self.__curl(path=f'{path}/{uuid4()}.mp4', url=BeautifulSoup(response.text, 'html.parser').find('a')['href'])
         logger.info('content downloaded successfully')

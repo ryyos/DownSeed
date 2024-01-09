@@ -2,7 +2,7 @@ import requests
 
 from uuid import uuid4
 from urllib import request
-from pyquery import PyQuery
+from bs4 import BeautifulSoup
 from src.utils.logs import logger
 
 class Instagram:
@@ -23,15 +23,15 @@ class Instagram:
         payload = {'q': post_url, 't' : 'media', 'lang':'id'}
         response = requests.post(url=self.__api, data=payload, headers=self.__headers)
         
-        html = PyQuery(response.json()['data'])
+        html = BeautifulSoup(response.json()['data'], 'html.parser')
 
-        logger.info(f'content found: {len(html.find("div.download-items__btn a"))}')
+        logger.info(f'content found: {len(html.find_all("div", class_="download-items__btn"))}')
         print()
 
-        for url in html.find('div.download-items__btn a'):
+        for url in html.find_all("div", class_="download-items__btn"):
              
-            if 'video' in PyQuery(url).text(): self.__curl(path=f'{path}/{uuid4()}.mp4', url=PyQuery(url).attr('href'))
-            if 'Gambar' in PyQuery(url).text(): self.__curl(path=f'{path}/{uuid4()}.jpg', url=PyQuery(url).attr('href'))
+            if 'video' in url.text: self.__curl(path=f'{path}/{uuid4()}.mp4', url=url.a['href'])
+            if 'Gambar' in url.text: self.__curl(path=f'{path}/{uuid4()}.jpg', url=url.a['href'])
             
             logger.info('content downloaded successfully')
 

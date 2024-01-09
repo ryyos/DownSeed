@@ -38,7 +38,7 @@ class Main:
 
     @sosmed.command('tiktok')
     @click.option('--url', '-u', help='insert your contents')
-    def tiktok(self, url: str):
+    def tiktok(url: str):
         tiktok = Tiktok()
 
         load_dotenv()
